@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="CSS/css.css">
+	<meta charset="UTF-8">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="script/jquery-1.7.2.js"></script>
+    <script type="text/javascript">
+    
+	$(function(){
+	
+		$("#query").focus(function(){
+		
+			var tb = $.trim(this.value);
+			if(tb == this.defaultValue){
+				this.value = "";
+			}
+		
+		}).blur(function(){
+		
+			var tb = $.trim(this.value);
+			if(tb == ""){
+				this.value = this.defaultValue;
+				$("#result").empty();
+			}
+			
+		}).change(function(){
+			var tb = $.trim(this.value);
+			if(tb != this.defaultValue && tb != ""){
+				$("#result").slideUp(500,function(){
+					$.post("ajaxServlet", {"text": tb }, function(data){
+						//可以看到，其返回值是一个数组
+						//alert(data instanceof Array);
+						$("#result").empty();
+						if(data.length == 0){
+							$("#result").append("<div>没有相关结果<div>");
+						}
+						for(var i = 0; i < data.length; i++){
+							//alert(data[i].id +" " + data[i].text);
+							$("#result").append("<div>" + data[i].text + "<div>");
+						}
+						$("#result").show();
+					},"json");
+				});
+			}
+		});
+	});
+    
+    </script>
+
+  </head>
+  
+  <body>
+
+	<input type="text" id="query" value="在这里输入搜索"/>
+	
+	<div id="result"></div>
+	
+  </body>
+</html>

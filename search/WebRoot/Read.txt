@@ -1,0 +1,3 @@
+1)、使用Hibernate和C3P0实现了模糊查询；
+2)、使用GSON实现里json数据的传递
+3)、使用Ajax和JQuery实现了页面的局部刷新 
